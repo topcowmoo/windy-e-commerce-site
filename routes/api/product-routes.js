@@ -107,7 +107,7 @@ router.put("/:id", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Failed to update product", error: err });
+    res.status(400).json({ message: "Failed to update product", error: err });
   }
 });
 
