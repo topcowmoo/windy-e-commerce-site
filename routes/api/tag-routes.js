@@ -7,10 +7,10 @@ router.get("/", async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   try {
-    const categoryData = await Category.findAll({
+    const tagData = await Tag.findAll({
       include: [{ model: Product }],
     });
-    res.status(200).json(categoryData);
+    res.status(200).json(tagData);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -20,10 +20,10 @@ router.get("/:id", async (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
   try {
-    const categoryData = await Category.findByPk(req.params.id, {
+    const tagData = await Tag.findByPk(req.params.id, {
       include: [{ model: Product }],
     });
-    res.status(200).json(categoryData);
+    res.status(200).json(tagData);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -32,14 +32,14 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   // create a new tag
   try {
-    const categoryData = await Category.create({
-      category_name: req.body.category_name,
+    const tagData = await Tag.create({
+      tag_name: req.body.tag_name,
     });
     res
       .status(200)
       .json({
-        message: "Category has been added to the database",
-        category: req.body.category_name,
+        message: "Tag has been added to the database",
+        category: req.body.tag_name,
       });
   } catch (err) {
     res.status(400).json(err);
@@ -47,20 +47,20 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  // update a category by its `id` value
-  id_to_update = req.params.id;
-  name_to_update = req.body.category_name;
+  // update a tag by its `id` value
+  const idToUpdate = req.params.id;
+  const nameToUpdate = req.body.tag_name;
   try {
-    await Category.update(
-      { category_name: name_to_update },
-      { where: { id: id_to_update } }
+    await Tag.update(
+      { tag_name: nameToUpdate },
+      { where: { id: idToUpdate } }
     );
     res
       .status(200)
       .json({
-        message: "Category has been updated",
-        id: id_to_update,
-        Category: name_to_update,
+        message: "Tag has been updated",
+        id: idToUpdate,
+        tag: nameToUpdate,
       });
   } catch (err) {
     res.status(400).json(err);
@@ -69,12 +69,12 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   // delete on tag by its `id` value
-  id_to_delete = req.params.id;
+  const idToDelete = req.params.id;
   try {
-    await Category.destroy({ where: { id: id_to_delete } });
+    await Tag.destroy({ where: { id: idToDelete } });
     res
       .status(200)
-      .json({ message: "Category has been deleted", id: id_to_delete });
+      .json({ message: "Tag has been deleted", id: idToDelete });
   } catch (err) {
     res.status(400).json(err);
   }
