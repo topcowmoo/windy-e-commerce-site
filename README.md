@@ -1,9 +1,3 @@
-pair program SB
-
-
-
-
-
 <a name="readme-top"></a>
 
 <br />
@@ -15,9 +9,9 @@ pair program SB
 <h3 align="center">Windy E-Commerce Site</h3>
 
   <p align="center">
-   <!-- Developers frequently have to create interfaces that allow non-developers to easily view and interact with information stored in databases. These interfaces are called content management systems (CMS). Light Employee Manger is a command-line application that manages a company's employee database, using Node.js, Inquirer, and MySQL. -->
+   I was challenged with building the back end for an e-commerce site. I took a working Express.js API and configured it to use Sequelize to interact with a MYSQL database. This site can now search, update, create and delete data from the database. I used Insomnia to test the routes and have provided some screenshots below to show functionality.
 
-To see how it works please view my demo:
+To see how the site works on the back end, please view my demo:
 
 <!-- https://drive.google.com/file/d/1oSwtuzCqikUOLJWFxbwRfcQC4jHJNJuS/view?usp=sharing -->
   <br />
@@ -59,21 +53,33 @@ To see how it works please view my demo:
 
 An E-Commerce site configured with a working Express.js API which uses Sequelize to interact with a MySQL database.
 
-<!-- Landing page:
+Creating and sourcing schema in database:
 
-![image](https://github.com/topcowmoo/fluffy-disco-note-taker/assets/149528212/710c02b8-5ca9-414b-be6c-df19fb7b6118)
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/abe0121d-89d5-4a8e-b145-9864c3b958cf)
 
-Retrieve saved notes:
+Seeding the database:
 
-![image](https://github.com/topcowmoo/fluffy-disco-note-taker/assets/149528212/08364672-5017-4f93-bcab-81572fa2fc77)
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/cd88f48e-be69-42a3-ac93-c43c4ed5d858)
 
-Add a new note with Save and Clear Buttons present:
+Server is started:
 
-![image](https://github.com/topcowmoo/fluffy-disco-note-taker/assets/149528212/fd3ba555-1aeb-4db3-961b-93d9649a6dfa)
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/ce132cfb-6929-461f-bc2c-3188979e83d9)
 
-db.json file showing saved notes each with unique ID's:
+Example of a GET request of one Product in Insomnia:
 
-![image](https://github.com/topcowmoo/fluffy-disco-note-taker/assets/149528212/719a7feb-9c5d-469e-ab02-8ad5a3542018) -->
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/a9bf0575-9c40-4c40-9723-3116d62a9e06)
+
+Example of a PUT request to update a Category in Insomnia:
+
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/b9c9542b-31ee-42b6-b8a1-3b32c83af094)
+
+Example of a DELETE request to delete a Tag by Id in Insomnia:
+
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/f3fdd26d-914e-4bf5-9de7-7dbed13df622)
+
+Example of a POST request to create a new Tag in Insomnia:
+
+![image](https://github.com/topcowmoo/windy-e-commerce-site/assets/149528212/c2e26d6d-9cbf-429b-9edb-3c0684260906)
 
 <!-- BUILT WITH -->
 
@@ -97,6 +103,19 @@ db.json file showing saved notes each with unique ID's:
 2. Install NPM packages
    ````sh
    npm install   ```
+   ````
+3. Create and source the schema from the terminal
+   ````sh
+   CREATE DATABASE ecommerce_db;
+   source ./db/schema.sql   ```
+   ````
+4. Seed the database from the terminal
+   ````sh
+   npm run seed ```
+   ````
+5. Start the server from the terminal
+   ````sh
+   npm start ```
    ````
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -132,6 +151,7 @@ Project Link: [https://github.com/topcowmoo/windy-e-commerce-site](https://githu
 
 ## Acknowledgments
 
+- [Pair Programing with Sahil Banati](https://github.com/sbanati)
 - [Sequelize](https://sequelize.org/)
 - [MySQL](https://www.mysql.com/)
 - [ChatGPT](https://chat.openai.com/)
