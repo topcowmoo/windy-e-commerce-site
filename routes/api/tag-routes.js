@@ -33,13 +33,12 @@ router.post("/", async (req, res) => {
   // create a new tag
   try {
     const tagData = await Tag.create({
-      tag_name: req.body.tag_name,
     });
     res
       .status(200)
       .json({
         message: "Tag has been added to the database",
-        category: req.body.tag_name,
+        tag: req.body.tag_name,
       });
   } catch (err) {
     res.status(400).json(err);

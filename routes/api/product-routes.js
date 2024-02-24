@@ -41,28 +41,26 @@ router.post("/", async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  try {
-    const product = await Product.create({
-      product_name: req.body.product_name,
-      price: req.body.price,
-      stock: req.body.stock,
+  Product.create(req.body)
+    .then((product) => {
+      if (req.body.tagIds.length) {
+        const productTagIds = req.body.tagIds.map((tag_id) => {
+          return {
+            product_id: product.id,
+            tag_id,
+          };
+        });
+        return ProductTag.bulkCreate(productTagIds);
+      }
+    })
+    .then(() => {
+      res.status(200).json({ message: "Product and Tags successfully created" });
+    })
+    .catch((err) => {
+      res.status(400).json({ message: "Internal server error" });
     });
-
-    let tag_list = JSON.parse(req.body.tagIds);
-    if (tag_list.length) {
-      const productTagIdArr = tag_list.map((tag_id) => ({
-        product_id: product.id,
-        tag_id,
-      }));
-      await ProductTag.bulkCreate(productTagIdArr);
-    }
-
-    res.status(201).json(product);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: "Failed to create product.", error: err });
-  }
 });
+
 
 // update product
 router.put("/:id", async (req, res) => {
@@ -74,7 +72,7 @@ router.put("/:id", async (req, res) => {
 
     if (affectedRows > 0) {
       // Update associated tags
-      const newTagIds = JSON.parse(req.body.tag_ids) || [];
+      const newTagIds = JSON.parse(req.body.tagIds) || [];
       const originalProductTags = await ProductTag.findAll({
         where: { product_id: req.params.id },
       });

@@ -65,12 +65,12 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   // delete a category by its `id` value
-  id_to_delete = req.params.id;
+  const idToDelete = req.params.id;
   try {
-    await Category.destory({ where: { id: id_to_delete } });
+    await Category.destory({ where: { id: idToDelete } });
     res
       .status(200)
-      .json({ message: "Category has been deleted", id: id_to_delete });
+      .json({ message: "Category has been deleted", id: idToDelete });
   } catch (err) {
     res.status(400).json(err);
   }
