@@ -13,7 +13,7 @@
 
 To see how the site works on the back end, please view my demo:
 
-<!-- https://drive.google.com/file/d/1oSwtuzCqikUOLJWFxbwRfcQC4jHJNJuS/view?usp=sharing -->
+ADDDDDDDDDDDDDDDDDDDDDDDDD THE LINK HERE AND IN THE DEMO FOLDER IN REPO<!-- https://drive.google.com/file/d/1oSwtuzCqikUOLJWFxbwRfcQC4jHJNJuS/view?usp=sharing -->  ADDDDDDDDDDDDDDDDDDDDDDDDD THE LINK HERE AND IN THE DEMO FOLDER IN REPO
   <br />
     <a href="https://github.com/topcowmoo/windy-e-commerce-site"><strong>Explore the docs »</strong></a>
     <br />
@@ -141,7 +141,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## Contact
 
-Your Name - [@github_username](https://github.com/topcowmoo) - mammoliti.sam@gmail.com
+Salvatore Mammoliti - [@github](https://github.com/topcowmoo) - mammoliti.sam@gmail.com
 
 Project Link: [https://github.com/topcowmoo/windy-e-commerce-site](https://github.com/topcowmoo/windy-e-commerce-site)
 

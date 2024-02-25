@@ -72,7 +72,7 @@ router.put("/:id", async (req, res) => {
 
     if (affectedRows > 0) {
       // Update associated tags
-      const newTagIds = JSON.parse(req.body.tagIds) || [];
+      const newTagIds = req.body.tagIds || [];
       const originalProductTags = await ProductTag.findAll({
         where: { product_id: req.params.id },
       });
@@ -113,13 +113,14 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   // delete one product by its `id` value
-  id_to_delete = req.params.id;
+  const idToDelete = req.params.id; // Corrected variable name
   try {
-    await Product.destroy({ where: { id: id_to_delete } });
+    await Product.destroy({ where: { id: idToDelete } }); // Use the actual id value
     res
       .status(200)
-      .json({ message: "Product has been deleted", id: id_to_delete });
+      .json({ message: "Product has been deleted", id: idToDelete });
   } catch (err) {
+    console.error(err);
     res.status(400).json(err);
   }
 });
