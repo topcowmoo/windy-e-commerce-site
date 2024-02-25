@@ -61,21 +61,20 @@ router.post("/", async (req, res) => {
     });
 });
 
-
-// Update product route with .then statements
-router.put("/:id", async (req, res) => {
-  try {
-    // Update product data
-    Product.update(req.body, {
-      where: { id: req.params.id },
-    })
-    .then(async (result) => {
-      if (result > 0) {
-        // Update associated tags
-        const newTagIds = req.body.tagIds || [];
-        const originalProductTags = await ProductTag.findAll({
-          where: { product_id: req.params.id },
-        });
+// update product
+router.put('/:id', (req, res) => {
+  // Update product data
+  Product.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+  .then((result) => {
+    if (result[0] > 0) {
+      // Update associated tags
+      const newTagIds = req.body.tagIds || [];
+      ProductTag.findAll({ where: { product_id: req.params.id } })
+      .then((originalProductTags) => {
         const originalTagIds = originalProductTags.map(
           (productTag) => productTag.tag_id
         );
@@ -86,8 +85,10 @@ router.put("/:id", async (req, res) => {
           (productTag) => !newTagIds.includes(productTag.tag_id)
         );
 
-        await Promise.all([
-          ProductTag.destroy({ where: { id: tagsToRemove.map(({ id }) => id) } }),
+        return Promise.all([
+          ProductTag.destroy({
+            where: { id: tagsToRemove.map(({ id }) => id) },
+          }),
           ProductTag.bulkCreate(
             tagsToAdd.map((tagId) => ({
               product_id: req.params.id,
@@ -95,25 +96,36 @@ router.put("/:id", async (req, res) => {
             }))
           ),
         ]);
-
+      })
+      .then(() => {
         // Respond with success message or updated product data
-        const updatedProduct = await Product.findByPk(req.params.id, {
+        return Product.findByPk(req.params.id, {
           include: [{ model: Tag }],
         });
+      })
+      .then((updatedProduct) => {
         res.status(200).json(updatedProduct);
-      } else {
-        res.status(404).json({ message: "Product not found" });
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ message: "Failed to update product", error: err });
-    });
-  } catch (err) {
+      })
+      .catch((err) => {
+        console.error(err);
+        res
+          .status(500)
+          .json({ message: "Failed to update product", error: err });
+      });
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  })
+  .catch((err) => {
     console.error(err);
-    res.status(400).json({ message: "Failed to update product", error: err });
-  }
+    res
+      .status(400)
+      .json({ message: "Failed to update product", error: err });
+  });
 });
+
+
+
 
 router.delete("/:id", async (req, res) => {
   // delete one product by its `id` value
