@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findAll({
-      include: [{ model: Category}, { model: Tag }],
+      include: [{ model: Category }, { model: Tag }],
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Category}, { model: Tag }],
+      include: [{ model: Category }, { model: Tag }],
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -54,7 +54,9 @@ router.post("/", async (req, res) => {
       }
     })
     .then(() => {
-      res.status(200).json({ message: "Product and Tags successfully created" });
+      res
+        .status(200)
+        .json({ message: "Product and Tags successfully created" });
     })
     .catch((err) => {
       res.status(400).json({ message: "Internal server error" });
@@ -62,70 +64,65 @@ router.post("/", async (req, res) => {
 });
 
 // update product
-router.put('/:id', (req, res) => {
+router.put("/:id", (req, res) => {
   // Update product data
   Product.update(req.body, {
     where: {
       id: req.params.id,
     },
   })
-  .then((result) => {
-    if (result[0] > 0) {
-      // Update associated tags
-      const newTagIds = req.body.tagIds || [];
-      ProductTag.findAll({ where: { product_id: req.params.id } })
-      .then((originalProductTags) => {
-        const originalTagIds = originalProductTags.map(
-          (productTag) => productTag.tag_id
-        );
-        const tagsToAdd = newTagIds.filter(
-          (tagId) => !originalTagIds.includes(tagId)
-        );
-        const tagsToRemove = originalProductTags.filter(
-          (productTag) => !newTagIds.includes(productTag.tag_id)
-        );
+    .then((result) => {
+      if (result[0] > 0) {
+        // Update associated tags
+        const newTagIds = req.body.tagIds || [];
+        ProductTag.findAll({ where: { product_id: req.params.id } })
+          .then((originalProductTags) => {
+            const originalTagIds = originalProductTags.map(
+              (productTag) => productTag.tag_id
+            );
+            const tagsToAdd = newTagIds.filter(
+              (tagId) => !originalTagIds.includes(tagId)
+            );
+            const tagsToRemove = originalProductTags.filter(
+              (productTag) => !newTagIds.includes(productTag.tag_id)
+            );
 
-        return Promise.all([
-          ProductTag.destroy({
-            where: { id: tagsToRemove.map(({ id }) => id) },
-          }),
-          ProductTag.bulkCreate(
-            tagsToAdd.map((tagId) => ({
-              product_id: req.params.id,
-              tag_id: tagId,
-            }))
-          ),
-        ]);
-      })
-      .then(() => {
-        // Respond with success message or updated product data
-        return Product.findByPk(req.params.id, {
-          include: [{ model: Tag }],
-        });
-      })
-      .then((updatedProduct) => {
-        res.status(200).json(updatedProduct);
-      })
-      .catch((err) => {
-        console.error(err);
-        res
-          .status(500)
-          .json({ message: "Failed to update product", error: err });
-      });
-    } else {
-      res.status(404).json({ message: "Product not found" });
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res
-      .status(400)
-      .json({ message: "Failed to update product", error: err });
-  });
+            return Promise.all([
+              ProductTag.destroy({
+                where: { id: tagsToRemove.map(({ id }) => id) },
+              }),
+              ProductTag.bulkCreate(
+                tagsToAdd.map((tagId) => ({
+                  product_id: req.params.id,
+                  tag_id: tagId,
+                }))
+              ),
+            ]);
+          })
+          .then(() => {
+            // Respond with success message or updated product data
+            return Product.findByPk(req.params.id, {
+              include: [{ model: Tag }],
+            });
+          })
+          .then((updatedProduct) => {
+            res.status(200).json(updatedProduct);
+          })
+          .catch((err) => {
+            console.error(err);
+            res
+              .status(500)
+              .json({ message: "Failed to update product", error: err });
+          });
+      } else {
+        res.status(404).json({ message: "Product not found" });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(400).json({ message: "Failed to update product", error: err });
+    });
 });
-
-
-
 
 router.delete("/:id", async (req, res) => {
   // delete one product by its `id` value
