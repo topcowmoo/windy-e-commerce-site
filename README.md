@@ -14,6 +14,7 @@
 To see how the site works on the back end, please view my demo:
 
 https://drive.google.com/file/d/1q_LhyzKBZ6-6fw9hbPgev_rvDWNz-TUh/view
+
   <br />
     <a href="https://github.com/topcowmoo/windy-e-commerce-site"><strong>Explore the docs »</strong></a>
     <br />
